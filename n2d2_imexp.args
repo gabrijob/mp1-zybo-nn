@@ -1,0 +1,1 @@
+../n2d2_imexp GoogleNet.ini -format jpg -w weights_googlenet 
