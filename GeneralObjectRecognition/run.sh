@@ -20,4 +20,5 @@
 #    knowledge of the CeCILL-C license and that you accept its terms.
 ################################################################################
 
-../n2d2_imexp GoogleNet.ini -format jpg -w weights_googlenet $(echo $@)
+../bin/n2d2_imexp GoogleNet.ini -dir data/ -format jpg -w weights_googlenet $(echo $@)
+
