@@ -136,8 +136,9 @@ int main(int argc, char* argv[])
 
 
             //double displayEstimatedValue = estimatedLabelValue(i);
-            cv::String filename = fn.back();
+            cv::String path = fn.back();
             fn.pop_back();
+            cv::String filename = path.substr(path.find_last_of('/') + 1);
             labels_save << filename
                 << ": "
                 << displayEstimatedName
