@@ -2,7 +2,8 @@ import sys
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import glob
-from pathlib import Path
+import os
+#from pathlib import Path
 
 def parse():
     if len(sys.argv) != 3:
@@ -17,7 +18,8 @@ def display(imgdir_path, results_path):
     images = {}
     for ext in ["jpg","jpeg","png","tga"]:
         for filepath in glob.glob(imgdir_path + '/*.%s' % ext):
-            filename = Path(filepath).name
+            #filename = Path(filepath).name
+            filename = os.path.basename(filepath)
             images[filename] = mpimg.imread(filepath)
 
     results = {}
