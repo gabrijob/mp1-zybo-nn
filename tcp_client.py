@@ -27,6 +27,14 @@ def convert_image(img, ext):
 
     return stringData
 
+def recv_outfile(sock):
+    outfile = open('output_labels.out', 'rb')
+    count = int(sock.recv(16).decode())
+    while count:
+        buf = sock.recv(1024)
+        outfile.write(buf)
+        count -= len(buf)
+
 def tcp_client(img_dir):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((TCP_IP, TCP_PORT))
