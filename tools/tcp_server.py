@@ -16,27 +16,28 @@ def recvall(sock, count):
     return buf
 
 def evaluate():
-    cmd = "bin/n2d2_imexp GeneralObjectRecognition/GoogleNet.ini -dir downloads/ -format jpg -w GeneralObjectRecognition/weights_googlenet"
+    cmd = "../bin/n2d2_imexp ../GeneralObjectRecognition/GoogleNet.ini -dir ../downloads/ -format jpg -w ../GeneralObjectRecognition/weights_googlenet"
     os.system(cmd)
 
 def send_outfile(sock):
-    outfile = open('output_labels.out', 'wb')
-    count = getSize(outfile)
+    outfile = open('output_labels.out', 'rb')
+    count = os.path.getsize('output_labels.out')
     sock.send(str(count).ljust(16).encode('utf-8'))
     while count:
         buf = outfile.read(1024)
         print("Sending output_labels.out [" + str(len(buf)) + "/" + str(count) + "]")
         sock.send(buf)
         count -= len(buf)
-    sock.shutdown(socket.SHUT_WR)
-    sock.recv(1024)
+    #sock.shutdown(socket.SHUT_WR)
+    #sock.recv(1024)
+    print("...Sent")
 
 def tcp_server():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((TCP_IP, TCP_PORT))
     sock.listen(True)
     conn, addr = sock.accept()
-    print("Connected")
+    print("...Connected")
     
     nb_files = int(recvall(conn, 16))
     print("Receiving " + str(nb_files) + " files")
@@ -49,10 +50,10 @@ def tcp_server():
         data = numpy.fromstring(stringData, dtype='uint8')
 
         img = cv2.imdecode(data, 1)
-        cv2.imwrite("downloads/" + filename, img)
-        print("Image " + filename + " received succesfully [" + str(i+1) + "/" + str(nb_files) + "]")
+        cv2.imwrite("../downloads/" + filename, img)
+        print("- Image " + filename + " received succesfully [" + str(i+1) + "/" + str(nb_files) + "]")
 
-    print("Done receiving")
+    print("...Done receiving")
     evaluate()
     send_outfile(conn)
     sock.close()

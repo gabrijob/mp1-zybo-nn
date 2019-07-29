@@ -27,18 +27,20 @@ def convert_image(img, ext):
 
     return stringData
 
-def recv_outfile(sock):
-    outfile = open('output_labels.out', 'rb')
+def recv_outfile(sock, path_dir):
+    outfile = open(path_dir + '/output_labels.out', 'wb')
     count = int(sock.recv(16).decode())
+    print("Receiving output_labels.out in " + path_dir)
     while count:
         buf = sock.recv(1024)
         outfile.write(buf)
         count -= len(buf)
+    print("...Received")
 
 def tcp_client(img_dir):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((TCP_IP, TCP_PORT))
-    print("Connected")
+    print("...Connected")
 
     images = read_dir(img_dir)
     sock.send(str(len(images)).ljust(16).encode('utf-8'))
@@ -51,10 +53,12 @@ def tcp_client(img_dir):
         stringData = convert_image(images[name], extension)
         sock.send(str(len(stringData)).ljust(16).encode('utf-8'))
         sock.send(stringData)
-        print("Image " + name + " sent succesfully [" + str(i+1) + "/" + str(len(images)) +  "]")
-
-    print("Done sending")
+        print("- Image " + name + " sent succesfully [" + str(i+1) + "/" + str(len(images)) +  "]")
+    
+    print("...Done sending")
     #sock.shutdown(socket.SHUT_WR)
+    
+    recv_outfile(sock, img_dir)
     sock.close()
 
 if __name__ == "__main__":

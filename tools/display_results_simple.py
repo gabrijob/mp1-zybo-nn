@@ -18,12 +18,13 @@ def display(results_path):
             line_words = line.split(':')
             results[line_words[0].strip()] = line_words[1].strip()
 
-    print("Evaluation results:")
+    print("=================Evaluation results:==================")
     for i,name in enumerate(results):
         print("--> Image [" + name + "] is [" + results[name] + "]")
+    print("======================================================")
 
 if __name__ == "__main__":
     args = parse()
     tcp_client(args[0])
-    #display(args[0])
+    display(args[0])
 
