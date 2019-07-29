@@ -63,3 +63,38 @@ if (MongoDB_FOUND)
     target_link_libraries(n2d2_imexp ${MongoDB_LIBRARIES})
     target_compile_definitions(n2d2_imexp PUBLIC MONGODB=1)
 endif()
+
+# n2d2_lib_cuda target
+find_package(CUDA)
+if(CUDA_FOUND)
+    find_package(CuDNN REQUIRED)
+
+    file(GLOB_RECURSE src_files_cuda "src/*.cu")
+    set_nvcc_flags()
+    cuda_include_directories("${CMAKE_CURRENT_LIST_DIR}/include/")
+    cuda_add_library(n2d2_lib_cuda STATIC ${src_files_cuda})
+
+    # CUDA
+    target_include_directories(n2d2_lib_cuda PUBLIC ${CUDA_INCLUDE_DIRS})
+    target_link_libraries(n2d2_lib_cuda ${CUDA_LIBRARIES})
+
+    # CuDNN
+    target_include_directories(n2d2_lib_cuda PUBLIC ${CUDNN_INCLUDE_DIRS})
+    target_link_libraries(n2d2_lib_cuda ${CUDNN_LIBRARY})
+
+    # Cublas
+    # Work-around due to a bug in CMake < 3.12.2
+    if(CUDA_VERSION VERSION_GREATER 9.1 AND CMAKE_VERSION VERSION_LESS 3.12.2)
+         list(REMOVE_ITEM CUDA_CUBLAS_LIBRARIES "CUDA_cublas_device_LIBRARY-NOTFOUND")
+    endif()
+
+    target_link_libraries(n2d2_lib_cuda ${CUDA_CUBLAS_LIBRARIES})
+
+    # OpenCV
+    find_package(OpenCV REQUIRED)
+    target_link_libraries(n2d2_lib_cuda ${OpenCV_LIBS})
+
+    target_compile_definitions(n2d2_lib_cuda PUBLIC CUDA=1)
+    target_link_libraries(n2d2_lib n2d2_lib_cuda)
+endif()
+
