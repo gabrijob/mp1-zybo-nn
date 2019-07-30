@@ -3,7 +3,7 @@ import numpy
 import os 
 import cv2
 
-TCP_IP = 'localhost'
+TCP_IP = '10.0.0.1'
 TCP_PORT = 5001
 
 def recvall(sock, count):

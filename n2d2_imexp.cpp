@@ -9,9 +9,9 @@
     #include <windows.h>
 #endif
 
-#ifdef CUDA
-    #include <CudaContext.hpp>
-#endif
+//#ifdef CUDA
+//    #include <CudaContext.hpp>
+//#endif
 
 
 using namespace N2D2;
@@ -23,10 +23,10 @@ int main(int argc, char* argv[])
 {
     // Program command line options
     ProgramOptions opts(argc, argv);
-#ifdef CUDA
-    const int cudaDevice
-        = opts.parse("-dev", 0,              "CUDA device ID");
-#endif
+//#ifdef CUDA
+//    const int cudaDevice
+//        = opts.parse("-dev", 0,              "CUDA device ID");
+//#endif
     const std::string pictureFileName
         = opts.parse<std::string>("-picture",
                                   "",
@@ -50,13 +50,13 @@ int main(int argc, char* argv[])
                                  "network config file (INI)");
     opts.done();
 
-#ifdef CUDA
-    CudaContext::setDevice(cudaDevice);
+//#ifdef CUDA
+//    CudaContext::setDevice(cudaDevice);
 
-    cudaDeviceProp prop;
-    cudaGetDeviceProperties(&prop, cudaDevice);
+//    cudaDeviceProp prop;
+//    cudaGetDeviceProperties(&prop, cudaDevice);
     //timingsWindow+= std::string(" on ") + prop.name;
-#endif
+//#endif
 
     //Network Initialisation
     Network net;

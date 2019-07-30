@@ -69,9 +69,15 @@ find_package(CUDA)
 if(CUDA_FOUND)
     find_package(CuDNN REQUIRED)
 
-    file(GLOB_RECURSE src_files_cuda "src/*.cu")
-    set_nvcc_flags()
-    cuda_include_directories("${CMAKE_CURRENT_LIST_DIR}/include/")
+    file(GLOB_RECURSE src_files_cuda "${N2D2_DIR}/src/*.cu")
+    set(CUDA_PROPAGATE_HOST_FLAGS OFF)
+    list(APPEND CUDA_NVCC_FLAGS -std=c++11;-arch=sm_30;)
+    if (MSVC)
+        list(APPEND CUDA_NVCC_FLAGS -Xcompiler;-MD;)
+    else()
+        list(APPEND CUDA_NVCC_FLAGS -Xcompiler;-fPIC;)
+    endif()
+    cuda_include_directories("${N2D2_DIR}/include/")
     cuda_add_library(n2d2_lib_cuda STATIC ${src_files_cuda})
 
     # CUDA
@@ -95,6 +101,6 @@ if(CUDA_FOUND)
     target_link_libraries(n2d2_lib_cuda ${OpenCV_LIBS})
 
     target_compile_definitions(n2d2_lib_cuda PUBLIC CUDA=1)
-    target_link_libraries(n2d2_lib n2d2_lib_cuda)
+    target_link_libraries(n2d2_imexp n2d2_lib_cuda)
 endif()
 
