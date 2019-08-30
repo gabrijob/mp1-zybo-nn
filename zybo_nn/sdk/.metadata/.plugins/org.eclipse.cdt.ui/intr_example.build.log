@@ -1,0 +1,34 @@
+18:10:33 **** Build of configuration Debug for project intr_example ****
+make pre-build main-build 
+a9-linaro-pre-build-step
+ 
+Building file: ../src/xaxidma_example_simple_intr.c
+Invoking: ARM v7 gcc compiler
+arm-none-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/xaxidma_example_simple_intr.o" -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -I../../intr_example_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/xaxidma_example_simple_intr.d" -MT"src/xaxidma_example_simple_intr.o" -o "src/xaxidma_example_simple_intr.o" "../src/xaxidma_example_simple_intr.c"
+../src/xaxidma_example_simple_intr.c:118:2: warning: #warning CHECK FOR THE VALID DDR ADDRESS IN XPARAMETERS.H, DEFAULT SET TO 0x01000000 [-Wcpp]
+ #warning CHECK FOR THE VALID DDR ADDRESS IN XPARAMETERS.H, \
+  ^~~~~~~
+../src/xaxidma_example_simple_intr.c: In function 'main':
+../src/xaxidma_example_simple_intr.c:130:21: error: 'XPAR_FABRIC_AXIDMA_0_MM2S_INTROUT_VEC_ID' undeclared (first use in this function); did you mean 'XPAR_FABRIC_AXI_DMA_0_MM2S_INTROUT_INTR'?
+ #define TX_INTR_ID  XPAR_FABRIC_AXIDMA_0_MM2S_INTROUT_VEC_ID
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../src/xaxidma_example_simple_intr.c:130:21: note: in definition of macro 'TX_INTR_ID'
+ #define TX_INTR_ID  XPAR_FABRIC_AXIDMA_0_MM2S_INTROUT_VEC_ID
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../src/xaxidma_example_simple_intr.c:130:21: note: each undeclared identifier is reported only once for each function it appears in
+ #define TX_INTR_ID  XPAR_FABRIC_AXIDMA_0_MM2S_INTROUT_VEC_ID
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../src/xaxidma_example_simple_intr.c:130:21: note: in definition of macro 'TX_INTR_ID'
+ #define TX_INTR_ID  XPAR_FABRIC_AXIDMA_0_MM2S_INTROUT_VEC_ID
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../src/xaxidma_example_simple_intr.c:129:21: error: 'XPAR_FABRIC_AXIDMA_0_S2MM_INTROUT_VEC_ID' undeclared (first use in this function); did you mean 'XPAR_FABRIC_AXI_DMA_1_S2MM_INTROUT_INTR'?
+ #define RX_INTR_ID  XPAR_FABRIC_AXIDMA_0_S2MM_INTROUT_VEC_ID
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../src/xaxidma_example_simple_intr.c:129:21: note: in definition of macro 'RX_INTR_ID'
+ #define RX_INTR_ID  XPAR_FABRIC_AXIDMA_0_S2MM_INTROUT_VEC_ID
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/subdir.mk:21: recipe for target 'src/xaxidma_example_simple_intr.o' failed
+make: *** [src/xaxidma_example_simple_intr.o] Error 1
+
+18:10:33 Build Finished (took 615ms)
+
